@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{196CBBC3-35B0-47E4-810F-97AEBBB95BD1}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ProjectRADImpl/HashTableChaining.cs">
+    <Files>
+      <File FileName="ProjectRADImpl/Program.cs" Line="37" Column="10" />
+      <File FileName="ProjectRADImpl/HashTableChaining.cs" Line="12" Column="19" />
+      <File FileName="ProjectRADImpl/HashFunctions.cs" Line="46" Column="32" NotebookId="1" />
+      <File FileName="ProjectRADImpl/Generator.cs" Line="9" Column="53" NotebookId="1" />
+      <File FileName="XUnit_Project/XUnit_RAD/UnitTest1.cs" Line="37" Column="44" NotebookId="1" />
+      <File FileName="ProjectRADImpl/EmptyClass.cs" Line="13" Column="6" NotebookId="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="RADImplementationProject" expanded="True">
+            <Node name="RADImplementationProject" expanded="True">
+              <Node name="HashTableChaining.cs" selected="True" />
+            </Node>
+            <Node name="XUnit_RAD" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.RADImplementationProject PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>RADImplementationProject.csproj</String>
+    <String>Solution/RADImplementationProject.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
