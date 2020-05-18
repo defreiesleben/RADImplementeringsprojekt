@@ -95,3 +95,4 @@
 /Users/christian/Documents/School/RAD/RADImplementationProject/XUnit_Project/XUnit_RAD/obj/Debug/netcoreapp3.1/XUnit_RAD.dll
 /Users/christian/Documents/School/RAD/RADImplementationProject/XUnit_Project/XUnit_RAD/obj/Debug/netcoreapp3.1/XUnit_RAD.pdb
 /Users/christian/Documents/School/RAD/RADImplementationProject/XUnit_Project/XUnit_RAD/obj/Debug/netcoreapp3.1/XUnit_RAD.genruntimeconfig.cache
+/Users/christian/Documents/School/RAD/RADImplementationProject/XUnit_Project/XUnit_RAD/obj/Debug/netcoreapp3.1/XUnit_RAD.csprojAssemblyReference.cache

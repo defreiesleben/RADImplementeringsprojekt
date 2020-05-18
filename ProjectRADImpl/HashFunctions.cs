@@ -6,11 +6,12 @@ namespace RADImplementationProject
     public class HashFunctions
     {
         // Opgave 1 (a)
-        public static BigInteger MultiplyShift(ulong x, int l = 7)
+        // I opgave 1(a) bliver det understreget at I ikke skal bruge bigint eller BigInteger ved implementering af multiply-shift.
+        public static ulong MultiplyShift(ulong x, int l = 7)
         {
             // a random generated 64-bit integer using www.random.org/bytes
-            BigInteger a = 4272982255652177843UL;
-            BigInteger res = (a * x) >> (64 - l);
+            ulong a = 4272982255652177843UL;
+            ulong res = (a * x) >> (64 - l);
             return res;
         }
 
