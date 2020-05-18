@@ -126,7 +126,10 @@ namespace RADImplementationProject
 
 
         // Opgave 3
-        // Implementer en funktion der givet en strøm 􏰀2 af par(x1, d1),...,(xn, dn) beregner kvadratsummen S = \sum x∈U s(x)^2 . I skal bruge hashta- bellen som I har implementeret i opgave 2 til at gemme værdierne for hvert x i strømmen.
+        // Implementer en funktion der givet en strøm 􏰀2 af par(x1, d1),...,(xn, dn) beregner kvadratsummen S = \sum x∈U s(x)^2 .
+        // I skal bruge hashta- bellen som I har implementeret i opgave 2 til at gemme værdierne for hvert x i strømmen.
+        // I opgave 3 bliver I bedt om også at rapportere det mindste l så det med 2^l forskellige nøgler bliver
+        // for ressourcekrævende at køre hashing med chaining.
 
     }
 }
