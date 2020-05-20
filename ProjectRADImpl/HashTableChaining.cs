@@ -59,6 +59,7 @@ namespace RADImplementationProject
 
 
         // TROR VI SKAL HAVE ET FOREACH LOOP, NÅR VI GÅR IGENNEM NODELIST[L]
+        // SKAL DENNE HAVE EN NODELIST SOM INPUT??
         // Find the node having the key value.
         public void get(SingleLinkedList sList, int key)
         {
@@ -84,6 +85,7 @@ namespace RADImplementationProject
 
         // Set a given node x to a valiue v
         // Skal vi køre hele listen igennem for at vide, x ikke er der?
+        // SKAL DENNE HAVE EN NODELIST SOM INPUT??
         public void set(SingleLinkedList sList, int key, int v)
         {
             Node temp = sList.head;
@@ -108,6 +110,7 @@ namespace RADImplementationProject
         }
 
         // Increment the value of x with the value d
+        // SKAL DENNE HAVE EN NODELIST SOM INPUT??
         public void increment(SingleLinkedList sList, int key, int d)
         {
             Node temp = sList.head;
