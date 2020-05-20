@@ -21,3 +21,4 @@
 /Users/christian/Documents/School/RAD/RADImplementationProject/ProjectRADImpl/obj/Debug/netcoreapp3.1/RADImplementationProject.dll
 /Users/christian/Documents/School/RAD/RADImplementationProject/ProjectRADImpl/obj/Debug/netcoreapp3.1/RADImplementationProject.pdb
 /Users/christian/Documents/School/RAD/RADImplementationProject/ProjectRADImpl/obj/Debug/netcoreapp3.1/RADImplementationProject.genruntimeconfig.cache
+/Users/christian/Documents/School/RAD/RADImplementationProject/ProjectRADImpl/obj/Debug/netcoreapp3.1/RADImplementationProject.csprojAssemblyReference.cache

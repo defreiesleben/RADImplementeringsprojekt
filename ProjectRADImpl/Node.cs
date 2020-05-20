@@ -11,4 +11,12 @@ namespace RADImplementationProject
             next = null;
         }
     }
+
+    // Create a linked list class
+    // The SingleLinkedList will contain nodes of type Node class
+    // When a new Linked List is instantiated, it just has the head, which is Null
+    public class SingleLinkedList
+    {
+        internal Node head;
+    }
 }
