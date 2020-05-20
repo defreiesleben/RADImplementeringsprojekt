@@ -6600,31 +6600,40 @@
     ]
   },
   "packageFolders": {
-    "/Users/christian/.nuget/packages/": {}
+    "C:\\Users\\chaos\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/christian/Documents/School/RAD/RADImplementationProject/XUnit_Project/XUnit_RAD/XUnit_RAD.csproj",
+      "projectUniqueName": "C:\\Users\\chaos\\Desktop\\RADImplementationProject\\RADImplementeringsprojekt\\XUnit_Project\\XUnit_RAD\\XUnit_RAD.csproj",
       "projectName": "XUnit_RAD",
-      "projectPath": "/Users/christian/Documents/School/RAD/RADImplementationProject/XUnit_Project/XUnit_RAD/XUnit_RAD.csproj",
-      "packagesPath": "/Users/christian/.nuget/packages/",
-      "outputPath": "/Users/christian/Documents/School/RAD/RADImplementationProject/XUnit_Project/XUnit_RAD/obj/",
+      "projectPath": "C:\\Users\\chaos\\Desktop\\RADImplementationProject\\RADImplementeringsprojekt\\XUnit_Project\\XUnit_RAD\\XUnit_RAD.csproj",
+      "packagesPath": "C:\\Users\\chaos\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\chaos\\Desktop\\RADImplementationProject\\RADImplementeringsprojekt\\XUnit_Project\\XUnit_RAD\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/Users/christian/.config/NuGet/NuGet.Config"
+        "C:\\Users\\chaos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "/Users/christian/Documents/School/RAD/RADImplementationProject/ProjectRADImpl/RADImplementationProject.csproj": {
-              "projectPath": "/Users/christian/Documents/School/RAD/RADImplementationProject/ProjectRADImpl/RADImplementationProject.csproj"
+            "C:\\Users\\chaos\\Desktop\\RADImplementationProject\\RADImplementeringsprojekt\\ProjectRADImpl\\RADImplementationProject.csproj": {
+              "projectPath": "C:\\Users\\chaos\\Desktop\\RADImplementationProject\\RADImplementeringsprojekt\\ProjectRADImpl\\RADImplementationProject.csproj"
             }
           }
         }
@@ -6670,7 +6679,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.300/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

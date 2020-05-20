@@ -1,22 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace RADImplementationProject
 {
-    public class Node
+    public class Node<T>
     {
-        internal int data;
-        internal Node next;
-        public Node(int d)
-        {
-            data = d;
-            next = null;
-        }
-    }
+        public ulong Key;
+        public IIncrementable<T> Data;
+        public Node<T> Next;
 
-    // Create a linked list class
-    // The SingleLinkedList will contain nodes of type Node class
-    // When a new Linked List is instantiated, it just has the head, which is Null
-    public class SingleLinkedList
-    {
-        internal Node head;
+        public Node(ulong key, IIncrementable<T> v)
+        {
+            Key = key;
+            Data = v;
+            Next = null;
+        }
     }
 }

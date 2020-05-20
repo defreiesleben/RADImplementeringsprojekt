@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace XUnit_RAD
 {
-    public class UnitTest1
+    public class Opgave1
     {
         [Fact]
         public void Test_Multiply_Mod_Prime()

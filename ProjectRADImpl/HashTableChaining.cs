@@ -1,137 +1,112 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
+using System.Text;
 
 namespace RADImplementationProject
 {
-    public class HashTableChaining
+    public class HashTableChaining<T>
     {
-        public HashTableChaining(int _l)
+        private ulong count = 0;
+        private Node<T>[] nodeList = null;
+        private int l = 0;
+
+        public HashTableChaining(int l = 7)
         {
-            ulong l = 1UL << _l;
-
-            // node
-
-            Node[] nodeList = new Node[l];
+            this.l = l;
+            nodeList = new Node<T>[1UL << l];
         }
 
-        // Function for inserting datat in the front of the singly-linked list
-        // The first node, head, will be null when the linked list is instantiated.
-        // When we want to add any node at the front, we want the head to point to it.
-        // We will create a new node. The next of the new node will point to the head of the Linked list.
-        // The previous Head node is now the second node of Linked List because the new node is added at the front.
-        // We will assign head to the new node.
-        public void InsertFront(SingleLinkedList sList, int new_data)
-        {
-            Node new_node = new Node(new_data);
-            new_node.next = sList.head;
-            sList.head = new_node;
-        }
-
-
-        // Function for inserting datat in the end of the singly-linked list
-        // If the Linked List is empty, then we simply add the new node as the Head of the Linked List.
-        // If the Linked List is not empty, then we find the last node and make next of the last node to the new node.
-        // new node is the last node now.
-
-        public Node GetLastNode(SingleLinkedList sList)
-        {
-            Node temp = sList.head;
-
-            while (temp.next != null)
-            {
-                temp = temp.next;
-            }
-
-            return temp;
-        }
-
-        public void InsertLast(SingleLinkedList sList, int new_data)
-        {
-            Node new_node = new Node(new_data);
-            if (sList.head == null)
-            {
-                sList.head = new_node;
-                return;
-            }
-            Node lastNode = GetLastNode(sList);
-            lastNode.next = new_node;
-        }
-
-
-        // TROR VI SKAL HAVE ET FOREACH LOOP, NÅR VI GÅR IGENNEM NODELIST[L]
-        // SKAL DENNE HAVE EN NODELIST SOM INPUT??
         // Find the node having the key value.
-        public void get(SingleLinkedList sList, int key)
+        public T get(ulong key)
         {
-            Node temp = sList.head;
+            ulong hash = (ulong)HashFunctions.MultiplyModPrime(key, l);
+            Node<T> head = nodeList[hash];
 
-            // er nedenstående redundant?
-            if (temp == null)
+            if (head == null)
+                return default(T);
+
+            while (head.Key != key)
             {
-                return;
+                if (head.Next != null)
+                    head = head.Next;
+                else
+                    return default(T);
             }
-
-            while (temp != null && temp.data != key)
-            {
-                temp = temp.next;
-            }
-
-            if (temp != null && temp.data == key)
-            { 
-                return;
-            }
-
+            return head.Data.GetValue();
         }
 
         // Set a given node x to a valiue v
-        // Skal vi køre hele listen igennem for at vide, x ikke er der?
-        // SKAL DENNE HAVE EN NODELIST SOM INPUT??
-        public void set(SingleLinkedList sList, int key, int v)
+        public void set(ulong key, IIncrementable<T> v)
         {
-            Node temp = sList.head;
+            ulong hash = (ulong)HashFunctions.MultiplyModPrime(key, l);
+            Node<T> head = nodeList[hash];
 
-            // Hvis x ikke er i vores liste, skal vi tilføje x med værdien v
-            if (temp == null)
+            if (head == null)
             {
+                nodeList[hash] = new Node<T>(key, v);
+                count++;
                 return;
             }
 
-            // Iterate over items in the Node
-            while (temp != null && temp.data != key)
-            {
-                temp = temp.next;
-            }
+            while (head.Key != key && head.Next != null)
+                head = head.Next;
 
-            if (temp != null && temp.data == key)
+            if (head.Key == key)
+                head.Data = v;
+            else
             {
-                // Here the key x is set to the value v
-                temp.data = v;
+                head.Next = new Node<T>(key, v);
+                count++;
             }
         }
 
         // Increment the value of x with the value d
-        // SKAL DENNE HAVE EN NODELIST SOM INPUT??
-        public void increment(SingleLinkedList sList, int key, int d)
+        public void increment(ulong key, IIncrementable<T> v)
         {
-            Node temp = sList.head;
+            ulong hash = (ulong)HashFunctions.MultiplyModPrime(key, l);
+            Node<T> head = nodeList[hash];
 
-            // Hvis x ikke er i vores liste, skal vi tilføje x med værdien d
-            if (temp == null)
-            {
+            if (head == null) {
+                nodeList[hash] = new Node<T>(key, v);
+                count++;
                 return;
             }
 
-            // Iterate over items in the Node
-            while (temp != null && temp.data != key)
-            {
-                temp = temp.next;
-            }
+            while (head.Key != key && head.Next != null)
+                head = head.Next;
 
-            if (temp != null && temp.data == key)
+            if (head.Key == key)
+                head.Data.Increment(v.GetValue());
+            else
             {
-                // Here the key x is incremented with the value d
-                temp.data += d;
+                head.Next = new Node<T>(key, v);
+                count++;
             }
+        }
+
+        public ulong Count => count;
+
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for(long i = 0; i < nodeList.LongLength; i++)
+            {
+                if (nodeList[i] == null)
+                    sb.Append("[").Append(i).AppendLine("] = {}");
+                else {
+                    sb.Append("[").Append(i).Append("] = {");
+                    Node<T> current = nodeList[i];
+                    while (current != null)
+                    {
+                        sb.Append(current.Key).Append(":").Append(current.Data.GetValue()).Append(", ");
+                        current = current.Next;
+                    }
+                    sb.Remove(sb.Length - 2, 2).AppendLine("}");
+                }
+            }
+            return sb.ToString();
         }
     }
 }

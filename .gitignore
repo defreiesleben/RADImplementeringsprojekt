@@ -1,0 +1,11 @@
+﻿.vs/RADImplementationProject/v16
+ProjectRADImpl/bin
+ProjectRADImpl/bin
+ProjectRADImpl/bin
+ProjectRADImpl/bin/Debug
+ProjectRADImpl/obj
+ProjectRADImpl/obj/project.assets.json
+*.json
+*.cache
+XUnit_Project/XUnit_RAD/bin
+XUnit_Project/XUnit_RAD/obj
