@@ -10,3 +10,6 @@ ProjectRADImpl/obj/project.assets.json
 XUnit_Project/XUnit_RAD/bin
 XUnit_Project/XUnit_RAD/obj
 .vs
+ProjectRADImpl/obj
+XUnit_Project/XUnit_RAD/bin
+XUnit_Project/XUnit_RAD/obj

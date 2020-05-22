@@ -53,7 +53,7 @@ namespace XUnit_RAD
 
             foreach(Tuple<ulong, int> entry in S)
             {
-                output.WriteLine("Key: " + entry.Item1 + " Values: " + entry.Item1);
+                output.WriteLine("Key: " + entry.Item1 + " Values: " + entry.Item2);
             }
         }
     }
