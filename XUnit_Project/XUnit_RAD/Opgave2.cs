@@ -23,7 +23,6 @@ namespace XUnit_RAD
             int n = 100000;
 
             //Generate 10 elements with different value for l
-            //n < 2^l, n < 2^40
             IEnumerable<Tuple<ulong, int>> S = Generator.CreateStream(n, 63, 1);
 
             //Maps all keys from S to [0,15]
@@ -42,6 +41,20 @@ namespace XUnit_RAD
             output.WriteLine("Streamsize: " + n);
             output.WriteLine("Our hashtable size: " + table.Count);
             output.WriteLine(table.ToString());
+        }
+
+        [Fact]
+        public void TestStream()
+        {
+            int n = 32;
+
+            //Generate 10 elements with different value for l
+            IEnumerable<Tuple<ulong, int>> S = Generator.CreateStream(n, 2, 1);
+
+            foreach(Tuple<ulong, int> entry in S)
+            {
+                output.WriteLine("Key: " + entry.Item1 + " Values: " + entry.Item1);
+            }
         }
     }
 }
