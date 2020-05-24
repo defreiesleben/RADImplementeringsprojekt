@@ -106,7 +106,7 @@ namespace RADImplementationProject
             Func<ulong, ulong> g = GetUniversal4MultiplyModPrime(a, q);
 
             //TODO generate s and h
-            return g;
+            return null;
         }
 
         // Opgave 1 (c)
