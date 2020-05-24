@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace RADImplementationProject
 {
-    public class HashFunctions
+    public class HashFunction
     {
         // Opgave 1 (a)
         // I opgave 1(a) bliver det understreget at I ikke skal bruge bigint eller BigInteger ved implementering af multiply-shift.
@@ -14,7 +14,6 @@ namespace RADImplementationProject
             ulong res = (a * x) >> (64 - l);
             return res;
         }
-
 
 
 
@@ -73,24 +72,42 @@ namespace RADImplementationProject
             return -1;
         }
 
-
-        public static BigInteger hackModulo(int q, int x)
+        public static ulong Universal4MultiplyModPrime(ulong x, in BigInteger[] a, int q = 89)
         {
+            BigInteger y = a[a.Length - 1];
             BigInteger p = ((BigInteger)1 << q) - 1;
-            return x & p; // x mod 2^q
+            for (int i = a.Length - 2; i >= 0; i--)
+            {
+                y = y * x + a[i];
+                y = (y & p) + (y >> q);
+            }
+            if (y >= p) y = y - p;
+            return (ulong)y;
         }
 
-        public static BigInteger normalModulo(int q, int x)
+        public static Func<ulong, ulong> GetUniversal4MultiplyModPrime(BigInteger[] a, int q = 89)
         {
-            return x % ((BigInteger)1 << q); // x mod 2^q
+            return new Func<ulong, ulong>(x =>
+            {
+                BigInteger y = a[a.Length - 1];
+                BigInteger p = ((BigInteger)1 << q) - 1;
+                for (int i = a.Length - 2; i >= 0; i--)
+                {
+                    y = y * x + a[i];
+                    y = (y & p) + (y >> q);
+                }
+                if (y >= p) y = y - p;
+                return (ulong)y;
+            });
         }
 
-        public static BigInteger twothpower(int q)
+        public Tuple<Func<ulong, ulong>, Func<ulong, int>> GetCountSketchHashfunctions(BigInteger[] a, int q = 89)
         {
-            return ((BigInteger)1 << q);
+            Func<ulong, ulong> g = GetUniversal4MultiplyModPrime(a, q);
+
+            //TODO generate s and h
+            return g;
         }
-
-
 
         // Opgave 1 (c)
         // I skal nu teste køretiderne af de to hashfunktioner I har implementeret. Brug generatoren i 1.2 til at generere en strøm af nøgler og
@@ -114,6 +131,7 @@ namespace RADImplementationProject
 
         // Opgave 2 (a)
         // get(x): Skal returnere den værdi, der tilhører nøglen x. Hvis x ikke er i tabellen skal der returneres 0
+
 
 
         // Opgave 2 (b)

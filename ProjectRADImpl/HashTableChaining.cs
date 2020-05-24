@@ -87,7 +87,6 @@ namespace RADImplementationProject
 
         public ulong Count => count;
 
-
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

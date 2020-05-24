@@ -6,6 +6,21 @@ namespace RADImplementationProject
 {
     public class Generator
     {
+        public static byte[] GenerateBits(int n, int seed = -1)
+        {
+            byte[] bytes = new byte[(n + 7) / 8];
+
+            Random random = new Random();
+            if (seed != -1)
+                random = new Random(seed);
+
+            random.NextBytes(bytes);
+            int rshifts = 8 - n % 8;
+
+            bytes[bytes.Length - 1] = (byte) (bytes[bytes.Length - 1] >> rshifts);
+            return bytes;
+        }
+
         public static IEnumerable<Tuple<ulong, int>> CreateStream(int n, int l = 7, int seed = -1)
         {
             // We generate a random uint64 number.
