@@ -21,22 +21,18 @@ namespace RADImplementationProject
 
 
             // l can be in range [0, 127]
-            int l = 7;
-
-            for (ulong x = 0; x < 6; x++)
-            {
-                BigInteger actual = HashFunctions.MultiplyModPrime(x, l);
-                BigInteger expected = HashFunctions.MultiplyModPrimeReal(x, l);
-                Console.WriteLine("x={0,1}, equal?: {1}\n\t{2}\n\t{3}"
-                    , x
-                    , actual == expected
-                    , actual
-                    , expected);
-            }
-
-
-            
-
+            //int l = 7;
+            //
+            //for (ulong x = 0; x < 6; x++)
+            //{
+            //    BigInteger actual = HashFunction.MultiplyModPrime(x, l);
+            //    BigInteger expected = HashFunction.MultiplyModPrimeReal(x, l);
+            //    Console.WriteLine("x={0,1}, equal?: {1}\n\t{2}\n\t{3}"
+            //        , x
+            //        , actual == expected
+            //        , actual
+            //        , expected);
+            //}
         }
 
     }

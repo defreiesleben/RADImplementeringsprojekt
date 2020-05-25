@@ -32,5 +32,15 @@ namespace XUnit_RAD
 
             //Etc..
         }
+
+        [Fact]
+        public void TestGeneratorMakeOdd()
+        {
+            for (int i = 1; i < 200000; i++)
+            {
+                byte[] randomBytes = Generator.MakeOdd(Generator.GenerateBits(i));
+                Assert.True((randomBytes[randomBytes.Length - 1] & 1) == 1);
+            }
+        }
     }
 }

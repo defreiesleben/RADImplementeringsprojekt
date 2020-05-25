@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Xunit;
 using Xunit.Abstractions;
@@ -18,29 +19,54 @@ namespace XUnit_RAD
         }
 
         [Fact]
-        public void TestHashTableSimpleSmall()
+        public void TestHashTableSimpleSmallMS()
         {
             int n = 100000;
+            int seed = 1;
 
             //Generate 10 elements with different value for l
             IEnumerable<Tuple<ulong, int>> S = Generator.CreateStream(n, 63, 1);
 
-            //Maps all keys from S to [0,15]
-            HashTableChaining<int> table = new HashTableChaining<int>(7);
-
-            foreach(Tuple<ulong, int> elem in S)
-            {
-                table.set(elem.Item1, (Number)elem.Item2);
-            }
+            //Maps all keys from S to [0,127]
+            ulong a = BitConverter.ToUInt64(Generator.MakeOdd(Generator.GenerateBits(64, seed)));
+            int l = 7;
+            HashTableChaining<int> table_MS = new HashTableChaining<int>(HashFunction.MultiplyShift(a, l), 1UL << l);
 
             foreach (Tuple<ulong, int> elem in S)
-            {
-                Assert.Equal(elem.Item2, table.get(elem.Item1));
-            }
+                table_MS.increment(elem.Item1, (Number)elem.Item2);
+
+            foreach (Tuple<ulong, int> elem in S)
+                Assert.Equal(elem.Item2, table_MS.get(elem.Item1));
 
             output.WriteLine("Streamsize: " + n);
-            output.WriteLine("Our hashtable size: " + table.Count);
-            output.WriteLine(table.ToString());
+            output.WriteLine("Our hashtable size: " + table_MS.Count);
+            output.WriteLine(table_MS.ToString());
+        }
+
+        [Fact]
+        public void TestHashTableSimpleSmallMMP()
+        {
+            int n = 100000;
+            int l = 7;
+            int seed = 1;
+
+            //Generate 10 elements with different value for l
+            IEnumerable<Tuple<ulong, int>> S = Generator.CreateStream(n, 63, seed);
+
+            //Maps all keys from S to [0,127]
+            BigInteger a = new BigInteger(Generator.GenerateBits(89, seed));
+            BigInteger b = new BigInteger(Generator.GenerateBits(89, seed + 1));
+            HashTableChaining<int> table_MMP = new HashTableChaining<int>(HashFunction.MultiplyModPrime(a, b, l), 1UL << l);
+
+            foreach(Tuple<ulong, int> elem in S)
+                table_MMP.increment(elem.Item1, (Number)elem.Item2);
+
+            foreach (Tuple<ulong, int> elem in S)
+                Assert.Equal(elem.Item2, table_MMP.get(elem.Item1));
+
+            output.WriteLine("Streamsize: " + n);
+            output.WriteLine("Our hashtable size: " + table_MMP.Count);
+            output.WriteLine(table_MMP.ToString());
         }
 
         [Fact]

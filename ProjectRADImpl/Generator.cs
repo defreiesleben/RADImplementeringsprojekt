@@ -21,6 +21,12 @@ namespace RADImplementationProject
             return bytes;
         }
 
+        public static byte[] MakeOdd(byte[] input)
+        {
+            input[input.Length - 1] = (byte) ((input[input.Length - 1] & 1) == 1 ? input[input.Length - 1] : input[input.Length - 1] + 1);
+            return input;
+        }
+
         public static IEnumerable<Tuple<ulong, int>> CreateStream(int n, int l = 7, int seed = -1)
         {
             // We generate a random uint64 number.
@@ -59,39 +65,42 @@ namespace RADImplementationProject
             }
         }
 
-        public static IEnumerable<Tuple<ulong, int>> CreateStream(int n, int l)
+        //We created this for opgave 3, as very low values of "l" resulted in overflow for decent sized n
+        public static IEnumerable<Tuple<ulong, long>> CreateStreamLong(int n, int l = 7, int seed = -1)
         {
-            // We generate a random uint64 number .
-            Random rnd = new System.Random();
+            // We generate a random uint64 number.
+            Random rnd = new Random();
+            if (seed != -1)
+                rnd = new Random(seed);
             ulong a = 0UL;
             Byte[] b = new Byte[8];
             rnd.NextBytes(b);
-            for (int i = 0; i < 8; ++i)
+
+            for (int i = 0; i < 8; i++)
                 a = (a << 8) + (ulong)b[i];
 
-            // We demand that our random number has 30 zeros on theleast
-            // significant bits and then a one.
+            // We demand that our random number has 30 zeros on the least significant bits and then one
 
-            a = (a | ((1UL << 31) -1UL)) ^((1UL << 30) -1UL);
+            a = (a | ((1UL << 31) - 1UL)) ^ ((1UL << 30) - 1UL);
 
             ulong x = 0UL;
 
-            for (int i = 0; i < n / 3; ++i)
+            for (int i = 0; i < n / 3; i++)
             {
                 x = x + a;
-                yield return Tuple.Create(x & (((1UL << l) - 1UL) << 30) , 1);
+                yield return Tuple.Create(x & (((1UL << l) - 1UL) << 30), 1L);
             }
 
-            for(int i = 0; i<(n + 1) /3; ++i) 
+            for (int i = 0; i < (n + 1) / 3; i++)
             {
                 x = x + a;
-                yield return Tuple.Create(x & (((1UL << l) - 1UL) << 30) , -1);
+                yield return Tuple.Create(x & (((1UL << l) - 1UL) << 30), -1L);
             }
 
-            for(int i = 0; i<(n + 2) /3; ++i) 
+            for (int i = 0; i < (n + 2) / 3; i++)
             {
                 x = x + a;
-                yield return Tuple.Create(x & (((1UL << l) - 1UL) << 30) , 1);
+                yield return Tuple.Create(x & (((1UL << l) - 1UL) << 30), 1L);
             }
         }
     }

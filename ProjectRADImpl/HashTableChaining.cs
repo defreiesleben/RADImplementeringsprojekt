@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
@@ -9,18 +10,23 @@ namespace RADImplementationProject
     {
         private ulong count = 0;
         private Node<T>[] nodeList = null;
-        private int l = 0;
+        private Func<ulong, ulong> h = null;
 
-        public HashTableChaining(int l = 7)
+        /// <summary>
+        /// Create a hashtable with the given hashfunction, 
+        /// </summary>
+        /// <param name="hashfunction">The hashfunction, see HashFunction namespace</param>
+        /// <param name="size">The max value the hash function maps to</param>
+        public HashTableChaining(Func<ulong, ulong> hashfunction, ulong size)
         {
-            this.l = l;
-            nodeList = new Node<T>[1UL << l];
+            nodeList = new Node<T>[size];
+            h = hashfunction;
         }
 
         // Find the node having the key value.
         public T get(ulong key)
         {
-            ulong hash = (ulong)HashFunctions.MultiplyModPrime(key, l);
+            ulong hash = h(key);
             Node<T> head = nodeList[hash];
 
             if (head == null)
@@ -39,7 +45,7 @@ namespace RADImplementationProject
         // Set a given node x to a valiue v
         public void set(ulong key, IIncrementable<T> v)
         {
-            ulong hash = (ulong)HashFunctions.MultiplyModPrime(key, l);
+            ulong hash = h(key);
             Node<T> head = nodeList[hash];
 
             if (head == null)
@@ -64,7 +70,7 @@ namespace RADImplementationProject
         // Increment the value of x with the value d
         public void increment(ulong key, IIncrementable<T> v)
         {
-            ulong hash = (ulong)HashFunctions.MultiplyModPrime(key, l);
+            ulong hash = h(key);
             Node<T> head = nodeList[hash];
 
             if (head == null) {
@@ -107,5 +113,7 @@ namespace RADImplementationProject
             }
             return sb.ToString();
         }
+
+        public Node<T>[] NodeList { get { return nodeList; } }
     }
 }
