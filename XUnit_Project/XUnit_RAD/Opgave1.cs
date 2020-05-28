@@ -55,7 +55,7 @@ namespace XUnit_RAD
             // Opgave 1 (c)
 
             BigInteger sum = 0;
-            IEnumerable<Tuple<ulong, int>> S = Generator.CreateStream(1000000);
+            IEnumerable<Tuple<ulong, int>> S = Generator.CreateStream(100000000);
             // Keys generated
 
             Stopwatch sw = new Stopwatch();

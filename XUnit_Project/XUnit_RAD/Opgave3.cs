@@ -18,21 +18,6 @@ namespace XUnit_RAD
             this.output = output;
         }
 
-        public BigInteger RealCount<T>(HashTableChaining<T> hashTable)
-        {
-            BigInteger sum_squared = BigInteger.Zero;
-            foreach (Node<T> node in hashTable.NodeList)
-            {
-                Node<T> head = node;
-                while (head != null && head.Data is NumberLong val)
-                {
-                    sum_squared += (long)Math.Pow(val.GetValue(), 2);
-                    head = head.Next;
-                }
-            }
-            return sum_squared;
-        }
-
         [Fact]
         public void TestEstimationOfS()
         {
@@ -61,8 +46,8 @@ namespace XUnit_RAD
                     tableMMP.increment(elem.Item1, (NumberLong)elem.Item2);
                 }
 
-                BigInteger Real_S_MS = RealCount<long>(tableMS);
-                BigInteger Real_S_MMP = RealCount<long>(tableMMP);
+                BigInteger Real_S_MS = Generator.RealCount<long>(tableMS);
+                BigInteger Real_S_MMP = Generator.RealCount<long>(tableMMP);
                 sw.Stop();
 
                 //output.WriteLine("MS table: \n " + tableMS);

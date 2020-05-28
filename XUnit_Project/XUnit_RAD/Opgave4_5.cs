@@ -32,7 +32,8 @@ namespace XUnit_RAD
             };
 
             Func<ulong, BigInteger> g = HashFunction.kIndependentMultiplyModPrime(a);
-            for (int t = 0; t <= 64; t++) {
+            for (int t = 0; t <= 64; t++) 
+            {
                 Tuple<Func<ulong, ulong>, Func<ulong, int>> hAnds = HashFunction.CountSketchHashfunctions(g, t);
                 Func<ulong, ulong> h = hAnds.Item1;
                 Func<ulong, int> s = hAnds.Item2;

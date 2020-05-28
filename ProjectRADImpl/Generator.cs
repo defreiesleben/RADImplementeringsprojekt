@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace RADImplementationProject
 {
@@ -23,8 +24,23 @@ namespace RADImplementationProject
 
         public static byte[] MakeOdd(byte[] input)
         {
-            input[input.Length - 1] = (byte) ((input[input.Length - 1] & 1) == 1 ? input[input.Length - 1] : input[input.Length - 1] + 1);
+            input[input.Length - 1] = (byte) ((input[^1] & 1) == 1 ? input[input.Length - 1] : input[input.Length - 1] + 1);
             return input;
+        }
+
+        public static BigInteger RealCount<T>(HashTableChaining<T> hashTable)
+        {
+            BigInteger sum_squared = BigInteger.Zero;
+            foreach (Node<T> node in hashTable.NodeList)
+            {
+                Node<T> head = node;
+                while (head != null && head.Data is NumberLong val)
+                {
+                    sum_squared += (long)Math.Pow(val.GetValue(), 2);
+                    head = head.Next;
+                }
+            }
+            return sum_squared;
         }
 
         public static IEnumerable<Tuple<ulong, int>> CreateStream(int n, int l = 7, int seed = -1)
