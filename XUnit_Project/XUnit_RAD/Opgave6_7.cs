@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -23,9 +24,10 @@ namespace XUnit_RAD
         public void Test100BCSResults()
         {
             int seed = 1;
-            int n = 100000;
+            int n = 100000; //100000
             int l = 7;
-            int t = 4;
+            int t_min = 1;
+            int t_max = 31;
 
             IEnumerable<Tuple<ulong, long>> S = Generator.CreateStreamLong(n, l, seed);
             
@@ -38,31 +40,6 @@ namespace XUnit_RAD
             
             BigInteger Real_S = Generator.RealCount<long>(tableMS);
 
-
-            BigInteger[][] manyResults = new BigInteger[10][];
-            BigInteger[][] manyMedianResults = new BigInteger[10][];
-            for (int run = 0; run < 10; run++)
-            {
-                BigInteger[] results = new BigInteger[100];
-                for (int i = 0; i < 100; i++)
-                {
-                    BasicCountSketch bcs = new BasicCountSketch(4);
-
-                    foreach (Tuple<ulong, long> elem in S)
-                        bcs.Process(elem);
-
-                    results[i] = bcs.Estimate2ndMoment();
-                }
-                manyResults[run] = results.OrderBy(val => val).ToArray();
-
-                BigInteger[] medianResults = new BigInteger[9];
-                for (int i = 0; i < 9; i++)
-                {
-                    medianResults[i] = results.Skip(i * 11).Take(11).OrderBy(val => val).ElementAt(5);
-                }
-                manyMedianResults[run] = medianResults.OrderBy(val => val).ToArray();
-            }
-
             string path = Directory.GetCurrentDirectory();
             DirectoryInfo di = new DirectoryInfo(path);
             while (di.Name != "XUnit_RAD")
@@ -72,30 +49,96 @@ namespace XUnit_RAD
 
             string testfilePath = Path.Combine(di.FullName, "TestResult", "Test100BCSResults.csv");
 
-            StringBuilder sb = new StringBuilder();
+            if (File.Exists(testfilePath))
+                File.Delete(testfilePath);
+            File.Create(testfilePath).Close();
 
-            sb.AppendLine("Real S;" + Real_S + ";;;;;;;;;");
-            sb.AppendLine("#Estimate;1st run;2nd run;3rd run;4th run;5th run;6th run;7th run;8th run;9th run;10th run");
-            for (int i = 0; i < 100; i ++)
+            for (int t = t_min; t <= t_max; t++)
             {
-                sb.Append(i + 1);
-                for (int run = 0; run < 10; run++)
-                    sb.Append(";" + manyResults[run][i]);
-                sb.AppendLine();
-            }
+                BigInteger[][] unsortedResults = new BigInteger[10][];
 
-            sb.AppendLine("#Estimate;1st run;2nd run;3rd run;4th run;5th run;6th run;7th run;8th run;9th run;10th run"); 
-            for (int i = 0; i < 9; i++)
-            {
-                sb.Append(i + 1);
                 for (int run = 0; run < 10; run++)
-                    sb.Append(";" + manyMedianResults[run][i]);
-                sb.AppendLine();
-            }
+                {
+                    Task<BigInteger>[] resultTasks = new Task<BigInteger>[100];
+                    for (int i = 0; i < 100; i++)
+                    {
+                        resultTasks[i] = Task<BigInteger>.Factory.StartNew((object obj) =>
+                        {
+                            IEnumerable<Tuple<ulong, long>> S = (IEnumerable<Tuple<ulong, long>>)obj;
+                            BasicCountSketch bcs = new BasicCountSketch(4);
+                            foreach (Tuple<ulong, long> elem in S)
+                                bcs.Process(elem);
+                            return bcs.Estimate2ndMoment();
+                        }, S);
+                    }
+                    Task<BigInteger>.WaitAll(resultTasks);
+                    BigInteger[] results = resultTasks.Select(task => task.Result).ToArray();
+                    unsortedResults[run] = results;
+                }
 
-            if (!File.Exists(testfilePath))
-                File.Create(testfilePath).Close();
-            File.WriteAllText(testfilePath, sb.ToString());
+                BigInteger[][] manyResults = new BigInteger[10][];
+                BigInteger[][] manyMedianResults = new BigInteger[10][];
+                BigInteger[] meansquare = new BigInteger[10];
+                for (int run = 0; run < 10; run++)
+                {
+                    manyResults[run] = unsortedResults[run].OrderBy(val => val).ToArray();
+
+                    meansquare[run] = unsortedResults[run].Aggregate(BigInteger.Zero, (acc, x) => acc + (BigInteger)Math.Pow((long)x - (long)Real_S, 2)) / 100;
+
+                    BigInteger[] medianResults = new BigInteger[9];
+                    for (int i = 0; i < 9; i++)
+                    {
+                        medianResults[i] = unsortedResults[run].Skip(i * 11).Take(11).OrderBy(val => val).ElementAt(5);
+                    }
+                    manyMedianResults[run] = medianResults.OrderBy(val => val).ToArray();
+                }
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine("Real S;" + Real_S + ";Expectation;" + Real_S + ";Variance;" + Math.Round(2 * Math.Pow((long)Real_S, 2) / (1 << t), 2) + ";Value of t;" + t + ";Value of m;" + (1 << t) + ";;;");
+                sb.Append("MeanSquareErrors");
+                BigInteger average = 0;
+                for (int run = 0; run < 10; run++)
+                {
+                    sb.Append(";" + meansquare[run]);
+                    average += meansquare[run];
+                }
+                sb.Append(";" + average / 10);
+                sb.AppendLine();
+
+                sb.AppendLine("#Estimate;1st run;2nd run;3rd run;4th run;5th run;6th run;7th run;8th run;9th run;10th run;Average run;Real S");
+                for (int i = 0; i < 100; i++)
+                {
+                    sb.Append(i + 1);
+                    average = 0;
+                    for (int run = 0; run < 10; run++)
+                    {
+                        sb.Append(";" + manyResults[run][i]);
+                        average += manyResults[run][i];
+                    }
+                    sb.Append(";" + average / 10);
+                    sb.Append(";" + Real_S);
+                    sb.AppendLine();
+                }
+
+                sb.AppendLine("#Estimate;1st run;2nd run;3rd run;4th run;5th run;6th run;7th run;8th run;9th run;10th run;Average run;Real S");
+                for (int i = 0; i < 9; i++)
+                {
+                    sb.Append(i + 1);
+                    average = 0;
+                    for (int run = 0; run < 10; run++)
+                    {
+                        sb.Append(";" + manyMedianResults[run][i]);
+                        average += manyMedianResults[run][i];
+                    }
+                    sb.Append(";" + average / 10);
+                    sb.Append(";" + Real_S);
+                    sb.AppendLine();
+                }
+                sb.AppendLine(";;;;;;;;;;;;");
+
+                File.AppendAllText(testfilePath, sb.ToString());
+            }
         }
     }
 }

@@ -188,10 +188,10 @@ C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\bin\Debug\netcoreapp3.1\RADImplementationProject.dll
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\bin\Debug\netcoreapp3.1\RADImplementationProject.pdb
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.csprojAssemblyReference.cache
-C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.csproj.CoreCompileInputs.cache
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.AssemblyInfoInputs.cache
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.AssemblyInfo.cs
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.csproj.CopyComplete
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.dll
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.pdb
 C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.genruntimeconfig.cache
+C:\Users\chaos\Desktop\RADImplementationProject\RADImplementeringsprojekt\XUnit_Project\XUnit_RAD\obj\Debug\netcoreapp3.1\XUnit_RAD.csproj.CoreCompileInputs.cache

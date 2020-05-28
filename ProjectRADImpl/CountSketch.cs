@@ -79,15 +79,5 @@ namespace RADImplementationProject
             else
                 return (queryResults.ElementAt(this.sketches.Count >> 1) + queryResults.ElementAt(this.sketches.Count >> 1 + 1)) >> 1;
         }
-
-        //public BigInteger Estimate2ndMoment()
-        //{
-        //    BigInteger ret = BigInteger.Zero;
-        //
-        //    foreach (BasicCountSketch bcs in this.sketches)
-        //        ret += (long)Math.Pow(bcs.Estimate2ndMoment(), 2);
-        //
-        //    return ret;
-        //}
     }
 }
