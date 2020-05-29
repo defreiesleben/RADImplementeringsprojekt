@@ -18,6 +18,7 @@ namespace RADImplementationProject
             if (t > 31)
                 throw new Exception("t is used in creating C which has to be of max size 2^31, hence t <= 31");
 
+            //generate 4 a's using either a seed or no seed (random for each run)
             BigInteger[] a = new BigInteger[]
             {
                 new BigInteger(Generator.GenerateBits(q, seed)),
@@ -26,6 +27,7 @@ namespace RADImplementationProject
                 new BigInteger(Generator.GenerateBits(q, seed == -1 ? -1 : seed + 3))
             };
 
+            //Using our Horner's rule implementation, we can get a 4 universal hashfunction by passing 4 a's
             Func<ulong, BigInteger> g = HashFunction.kIndependentMultiplyModPrime(a, q);
             Tuple<Func<ulong, ulong>, Func<ulong, int>> hAnds = HashFunction.CountSketchHashfunctions(g, t, q);
             this.h = hAnds.Item1;
@@ -51,33 +53,6 @@ namespace RADImplementationProject
                 ret += (long)Math.Pow(c, 2);
 
             return ret;
-        }
-    }
-
-    public class FullCountSketch
-    {
-        List<BasicCountSketch> sketches = null;
-
-        public FullCountSketch(int m, int t, int seed = -1)
-        {
-            for (int i = 0; i < m; i++)
-                this.sketches.Add(new BasicCountSketch(t, seed == -1 ? -1 : seed + i * 4));
-        }
-
-        public void Process(Tuple<ulong, long> entry)
-        {
-            foreach (BasicCountSketch bcs in this.sketches)
-                bcs.Process(entry);
-        }
-
-        //Get median by ordering query results and then taking the middle elements
-        public long Query(ulong x)
-        {
-            IEnumerable<long> queryResults = this.sketches.Select(bcs => bcs.Query(x)).OrderBy(val => val);
-            if ((this.sketches.Count & 1) == 1)
-                return queryResults.ElementAt(this.sketches.Count >> 1);
-            else
-                return (queryResults.ElementAt(this.sketches.Count >> 1) + queryResults.ElementAt(this.sketches.Count >> 1 + 1)) >> 1;
         }
     }
 }

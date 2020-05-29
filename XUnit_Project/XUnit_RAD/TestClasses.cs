@@ -29,7 +29,7 @@ namespace XUnit_RAD
                 Assert.True(bs[0] < 256);
                 Assert.True(bs[1] < 2);
             }
-
+            output.WriteLine("" + (1 << 31));
             //Etc..
         }
 

@@ -7,6 +7,12 @@ namespace RADImplementationProject
 {
     public class Generator
     {
+        /// <summary>
+        /// Generere n tilfældige bits i et byte array (der tages højde for bits der ikke går op i 8)
+        /// </summary>
+        /// <param name="n">Altalet af bits</param>
+        /// <param name="seed">Seed anvendt til tilfældighedsgenerering, samme seed giver samme resultat</param>
+        /// <returns></returns>
         public static byte[] GenerateBits(int n, int seed = -1)
         {
             byte[] bytes = new byte[(n + 7) / 8];
@@ -22,12 +28,23 @@ namespace RADImplementationProject
             return bytes;
         }
 
+        /// <summary>
+        /// Sætter den mindst "significant" bit i vores byte array til 1 hvis den ellers ikke er det
+        /// </summary>
+        /// <param name="input">Byte array, som repræsentere et tal, hvor vi ønsker det skal være ulige</param>
+        /// <returns>Det ulige byte array</returns>
         public static byte[] MakeOdd(byte[] input)
         {
             input[input.Length - 1] = (byte) ((input[^1] & 1) == 1 ? input[input.Length - 1] : input[input.Length - 1] + 1);
             return input;
         }
 
+        /// <summary>
+        /// Udregning af den aktuelle 2nd moment sum i en hashliste
+        /// </summary>
+        /// <typeparam name="T">Typen anvendt i hashtabellen</typeparam>
+        /// <param name="hashTable">Hashtabellen</param>
+        /// <returns>2nd moment summen over alle elementer i "hashTable"</returns>
         public static BigInteger RealCount<T>(HashTableChaining<T> hashTable)
         {
             BigInteger sum_squared = BigInteger.Zero;
@@ -43,6 +60,7 @@ namespace RADImplementationProject
             return sum_squared;
         }
 
+        // Stream generatoren fra opgaven
         public static IEnumerable<Tuple<ulong, int>> CreateStream(int n, int l = 7, int seed = -1)
         {
             // We generate a random uint64 number.
@@ -81,7 +99,7 @@ namespace RADImplementationProject
             }
         }
 
-        //We created this for opgave 3, as very low values of "l" resulted in overflow for decent sized n
+        // Variant af stream generatoren fra opgaven, dette gøres for at undgå overflow og unødig casting når vi udregner 2nd moment sum
         public static IEnumerable<Tuple<ulong, long>> CreateStreamLong(int n, int l = 7, int seed = -1)
         {
             // We generate a random uint64 number.
