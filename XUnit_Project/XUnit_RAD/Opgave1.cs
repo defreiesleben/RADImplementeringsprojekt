@@ -47,6 +47,26 @@ namespace XUnit_RAD
         }
 
         [Fact]
+        public void Test_Both_Random_Keys_In_Universe()
+        {
+            int l = 31;
+            int seed = 1;
+            ulong a_MS = BitConverter.ToUInt64(Generator.MakeOdd(Generator.GenerateBits(64, seed)));
+            Func<ulong, ulong> h_MS = HashFunction.MultiplyShift(a_MS, l);
+            BigInteger a_MMP = new BigInteger(Generator.GenerateBits(89, seed));
+            BigInteger b = new BigInteger(Generator.GenerateBits(89, seed + 1));
+            Func<ulong, ulong> h_MMP = HashFunction.MultiplyModPrime(a_MMP, b, l);
+
+            for (ulong x = 0; x < 1000000; x++)
+            {
+                ulong randomULong = BitConverter.ToUInt64(Generator.GenerateBits(64));
+                Assert.True(h_MS(randomULong) < (1UL << l));
+                Assert.True(h_MMP(randomULong) < (1UL << l));
+            }
+        }
+
+
+        [Fact]
         public void Test_Multiply_Mod_Prime_And_Multiply_Shift_Speed()
         {
             int l = 7; //2^l = 64, hence we get x |-> [0,...,127]

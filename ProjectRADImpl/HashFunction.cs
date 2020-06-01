@@ -101,8 +101,8 @@ namespace RADImplementationProject
         /// <returns>Returnere de to hashfunktioner til count sketch: h(x) |-> [m] and s(x) |-> [-1, 1]</returns>
         public static Tuple<Func<ulong, ulong>, Func<ulong, int>> CountSketchHashfunctions(Func<ulong, BigInteger> g, int t = 7, int q = 89)
         {
-            if (t > 31 || t < 0)
-                throw new Exception("invalid t given for countsketch functions, expected 0 <= t < 32");
+            if (t > 64 || t < 0)
+                throw new Exception("invalid t given for countsketch functions, expected 0 <= t <= 64");
 
             Func<ulong, ulong> h = new Func<ulong, ulong>(x =>
             {

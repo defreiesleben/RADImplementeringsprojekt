@@ -35,24 +35,10 @@ namespace RADImplementationProject
             this.C = new long[1 << t];
         }
 
-        public void Process(Tuple<ulong, long> entry)
-        {
-            this.C[h(entry.Item1)] += this.s(entry.Item1) * entry.Item2;
-        }
+        public void Process(Tuple<ulong, long> entry) => this.C[h(entry.Item1)] += this.s(entry.Item1) * entry.Item2;
 
-        public long Query(ulong x)
-        {
-            return this.s(x) * this.C[h(x)];
-        }
+        public long Query(ulong x) => this.s(x) * this.C[h(x)];
 
-        public BigInteger Estimate2ndMoment()
-        {
-            BigInteger ret = BigInteger.Zero;
-
-            foreach (long c in this.C)
-                ret += (long)Math.Pow(c, 2);
-
-            return ret;
-        }
+        public BigInteger Estimate2ndMoment() => this.C.Aggregate(BigInteger.Zero, (acc, c) => acc + (long)Math.Pow(c, 2));
     }
 }

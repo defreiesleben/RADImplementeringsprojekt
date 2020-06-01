@@ -63,11 +63,10 @@ namespace XUnit_RAD
         [Fact]
         public void TestEstimationOfS_Comparison()
         {
-            int n = 100000;
+            int n = 10000000;
 
-            int l_min = 29;
+            int l_min = 1;
             int l_max = 29; // array boundary, as we shift 1 << 31 <=> 2^31 https://docs.microsoft.com/en-us/dotnet/api/system.int32.maxvalue?view=netcore-3.1
-            int l = l_min;
             int seed = 2;
 
             ulong a_64odd = BitConverter.ToUInt64(Generator.MakeOdd(Generator.GenerateBits(64, seed)));
@@ -76,11 +75,13 @@ namespace XUnit_RAD
 
             //same S for all tests
 
+            IEnumerable<Tuple<ulong, long>> S = Generator.CreateStreamLong(n, l_max, seed);
             Stopwatch sw = new Stopwatch();
-            while (l <= l_max)
+            for (int l = l_min; l <= l_max; l++) 
             {
-                IEnumerable<Tuple<ulong, long>> S = Generator.CreateStreamLong(n, l, seed);
-                output.WriteLine("Iteration: {0,2}", l);
+                if (l == 17)
+                    n /= 10;
+                //output.WriteLine("Iteration: {0,2}", l);
                 HashTableChaining<long> tableMS = new HashTableChaining<long>(HashFunction.MultiplyShift(a_64odd, l), 1UL << l);
                 sw.Restart();
                 foreach (Tuple<ulong, long> elem in S)
@@ -91,10 +92,11 @@ namespace XUnit_RAD
                 BigInteger Real_S_MS = Generator.RealCount<long>(tableMS);
                 sw.Stop();
                 long tmp2 = sw.ElapsedMilliseconds;
-                output.WriteLine("\tMultiplyShift:");
-                output.WriteLine("\t\tTime to increment:  " + tmp1);
-                output.WriteLine("\t\tTime for summation: " + tmp2);
-                output.WriteLine("\t\tSum: " + Real_S_MS);
+                //output.WriteLine("\tMultiplyShift:");
+                //output.WriteLine("\t\tTime to increment:  " + tmp1);
+                //output.WriteLine("\t\tTime for summation: " + tmp2);
+                //output.WriteLine("\t\tSum: " + Real_S_MS);
+
 
 
                 HashTableChaining<long> tableMMP = new HashTableChaining<long>(HashFunction.MultiplyModPrime(a, b, l), 1UL << l);
@@ -107,16 +109,21 @@ namespace XUnit_RAD
                 BigInteger Real_S_MMP = Generator.RealCount<long>(tableMMP);
                 sw.Stop();
                 long tmp4 = sw.ElapsedMilliseconds;
-                output.WriteLine("\tMultiplyModPrime:");
-                output.WriteLine("\t\tTime to increment:  " + tmp3);
-                output.WriteLine("\t\tTime for summation: " + tmp4);
-                output.WriteLine("\t\tSum: " + Real_S_MMP);
+                //output.WriteLine("\tMultiplyModPrime:");
+                //output.WriteLine("\t\tTime to increment:  " + tmp3);
+                //output.WriteLine("\t\tTime for summation: " + tmp4);
+                //output.WriteLine("\t\tSum: " + Real_S_MMP);
+                //
+                //output.WriteLine("\tComparison:");
+                //output.WriteLine("\t\tMS vs. MMP increment:  " + Math.Round(((double)tmp1) / tmp3, 2) + "x");
+                //output.WriteLine("\t\tMS vs. MMP summation: " + Math.Round(((double)tmp2) / tmp4, 2) + "x");
+                //output.WriteLine("\t\tSame sum: " + (Real_S_MS == Real_S_MMP));
 
-                output.WriteLine("\tComparison:");
-                output.WriteLine("\t\tMS vs. MMP increment:  " + Math.Round(((double)tmp1) / tmp3, 2) + "x");
-                output.WriteLine("\t\tMS vs. MMP summation: " + Math.Round(((double)tmp2) / tmp4, 2) + "x");
-                output.WriteLine("\t\tSame sum: " + (Real_S_MS == Real_S_MMP));
-                l++;
+                double diff1 = tmp3 == 0 ? 1.0 : Math.Round(((double)tmp1) / tmp3, 2);
+                double diff2 = tmp4 == 0 ? 1.0 : Math.Round(((double)tmp2) / tmp4, 2);
+                
+                output.WriteLine(l + " & "+ n + " & " + tmp1 + " & " + tmp3 + " & " + diff1 + "x & " + tmp2 + " & " + tmp4 + " & " + diff2 + @"x \\\hline");
+
             }
         }
     }
